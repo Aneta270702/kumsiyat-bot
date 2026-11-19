@@ -1,18 +1,38 @@
-# KUMSIYAT Telegram bot — starter package
+# KUMSIYAT Telegram-бот — версия для Render Web Service
 
-This package contains the first working text-and-button version of the bot.
+Эта версия использует Telegram webhook и предназначена для запуска как **Web Service** на Render (не Background Worker).
 
-## Important
-- No bot token is included. Keep your token private.
-- Set the new/current token as an environment variable named `BOT_TOKEN` on the hosting service.
-- Do not paste the token into chats or public files.
-- Payment buttons are placeholders. They do not accept money yet.
-- Product images and the approved KUMSI photo are not embedded yet; they must be added after the image files are available.
+## Файлы
+- `bot.py` — код бота
+- `requirements.txt` — зависимости
+- `README.txt` — эта инструкция
 
-## Run
-1. Install Python 3.10+.
-2. Install dependencies: `pip install -r requirements.txt`
-3. Set `BOT_TOKEN` in the hosting service's secret/environment-variable settings.
-4. Start: `python bot.py`
+## Настройки Render
 
-The `/course`, `/suppliers`, `/currency`, and `/bundle` commands currently open the main menu. The inline buttons open the corresponding product pages.
+При создании сервиса выбери:
+- **New → Web Service**
+- Подключи GitHub-репозиторий `kumsiyat-bot`
+- Runtime: Python 3
+- Build Command: `pip install -r requirements.txt`
+- Start Command: `python bot.py`
+- Instance Type: **Free**, если этот вариант доступен
+
+Добавь Environment Variables (секреты не помещай в GitHub):
+
+1. `BOT_TOKEN` — актуальный токен Telegram-бота из BotFather. Не отправляй его в чат и не публикуй в GitHub.
+2. `WEBHOOK_URL` — публичный адрес созданного Render Web Service, например `https://имя-сервиса.onrender.com` (без завершающего `/` и без пути).
+3. `WEBHOOK_SECRET` — отдельный случайный секрет не короче 16 символов, только латинские буквы, цифры, `_` и `-`. Это НЕ токен Telegram.
+
+Render назначает переменную `PORT` автоматически; вручную её задавать не нужно.
+
+Важно: сначала создай Web Service и получи его адрес `onrender.com`, затем добавь этот адрес в `WEBHOOK_URL` и запусти/перезапусти деплой.
+
+## Ограничения бесплатного тарифа
+
+Бесплатный Web Service Render засыпает после 15 минут без входящего трафика и может запускаться примерно минуту после следующего запроса. Поэтому это вариант для тестирования, а не гарантия круглосуточной мгновенной работы Telegram-бота. Render также может перезапускать бесплатный сервис. Не добавляй банковскую карту и не подтверждай платный тариф, если хочешь оставаться на бесплатном варианте.
+
+## Важно
+- Токен не включён в архив.
+- Оплата в боте не подключена.
+- Кнопка «Купить обучение» пока показывает сообщение, что покупка скоро будет доступна.
+- Для страницы «Об авторе» пока используется текстовая заглушка; утверждённую фотографию автора нужно добавить отдельно позже.
